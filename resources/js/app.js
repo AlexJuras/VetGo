@@ -3,6 +3,7 @@ import '../css/app.css'
 
 import { createApp, h } from 'vue'
 import { createInertiaApp, Head, Link } from '@inertiajs/vue3'
+import {ZiggyVue} from '../../vendor/tightenco/ziggy'
 import Layout from './Layouts/Layout.vue';
 
 createInertiaApp({
@@ -19,18 +20,14 @@ createInertiaApp({
   setup({ el, App, props, plugin }) {
     createApp({ render: () => h(App, props) })
       .use(plugin)
+      .use(ZiggyVue)
       .component('Head', Head)
       .component('Link', Link)
       .mount(el)
   },
   progress: {
-    // The color of the progress bar...
-    color: "red",
-
-    // Whether to include the default NProgress styles...
+    color: "white",
     includeCSS: true,
-
-    // Whether the NProgress spinner will be shown...
     showSpinner: true,
   },
 })

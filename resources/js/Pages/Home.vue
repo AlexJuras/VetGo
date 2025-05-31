@@ -1,10 +1,10 @@
 <script setup>
 </script>
 <template>
-    <Head title=" | Home"/>
+    <Head :title="` | ${$page.component}`" />
     <Layout>
         <div>
-            <h1>Hello</h1>
+            <h1>{{ $page.props.auth.user }}</h1>
         </div>
     </Layout>
 </template>

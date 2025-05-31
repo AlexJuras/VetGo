@@ -5,9 +5,12 @@ use App\Http\Controllers\{ClinicController, AnimalController, ConsultaController
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    sleep(2);
+    sleep(1);
     return Inertia::render('Home');
-});
+})->name('home');
+
+Route::inertia('/vetgo', 'VetGo', ['faculdade' => 'Uninassau'])->name('vetgo');
+Route::inertia('/cadastrar', 'Auth/Cadastrar',['title' => 'Cadastrar'])->name('cadastrar');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('clinics', ClinicController::class);
@@ -17,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('consultas', ConsultaController::class);
 });
 
-Route::inertia('/vetgo', 'VetGo', ['faculdade' => 'Uninassau']);
+
 // Com o Inertia eu posso fazer a rota acima. Cada valor representa algo:
 // 1º valor: URL
 // 2º valor: Componente
