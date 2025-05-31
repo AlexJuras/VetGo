@@ -14,7 +14,7 @@ class AnimalController extends Controller
     public function index()
     {
         $clinics = Animal::all();
-        return Inertia::render('Animal/Index', compact('clinics'));
+        return Inertia::render('Animal/Index', compact('animals'));
     }
 
     /**
@@ -82,6 +82,6 @@ class AnimalController extends Controller
     public function destroy(Animal $animal)
     {
         $animal->delete();
-        return redirect()->route('clinics.index');
+        return redirect()->route('animals.index');
     }
 }
