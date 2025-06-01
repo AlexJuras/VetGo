@@ -1,10 +1,12 @@
-<script setup>
-</script>
+<script setup></script>
 <template>
     <Head :title="` | ${$page.component}`" />
     <Layout>
         <div>
-            <h1>{{ $page.props.auth.user }}</h1>
+            <span v-if="$page.props.auth.user">
+                {{ $page.props.auth.user.name }}
+            </span>
+            <span v-else> Visitante </span>
         </div>
     </Layout>
 </template>

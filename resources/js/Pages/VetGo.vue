@@ -1,4 +1,10 @@
 <script setup>
+import AuthLayout from '../Layouts/AuthLayout.vue';
+
+defineOptions({
+    layout: AuthLayout,
+})
+
 defineProps({
     faculdade: String,
 });

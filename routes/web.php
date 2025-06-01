@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\Auth\{CadastroController, LoginController};
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{ClinicController, AnimalController, ConsultaController, EstudanteController, TutorController};
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    sleep(1);
-    return Inertia::render('Home');
-})->name('home');
-
 Route::inertia('/vetgo', 'VetGo', ['faculdade' => 'Uninassau'])->name('vetgo');
-Route::inertia('/cadastrar', 'Auth/Cadastrar',['title' => 'Cadastrar'])->name('cadastrar');
+Route::inertia('/cadastrar', 'Auth/Cadastrar')->name('cadastrar');
+Route::inertia('/login', 'Auth/Login')->name('login');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/cadastro', [CadastroController::class, 'store']);
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('clinics', ClinicController::class);
@@ -18,6 +18,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tutors', TutorController::class);
     Route::resource('estudantes', EstudanteController::class);
     Route::resource('consultas', ConsultaController::class);
+    Route::get('/', function () {
+        sleep(1);
+        return Inertia::render('Home');
+    })->name('home');
 });
 
 
