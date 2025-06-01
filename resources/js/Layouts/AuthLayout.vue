@@ -56,7 +56,6 @@ function toggleMobileMenu() {
                         <Link 
                             :href="route('home')"
                             class="nav-link-pastel"
-                            :class="{ 'nav-link-active': $page.url === '/' }"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18l-2 9H5l-2-9zm0 0l2-5h14l2 5M9 11v6m6-6v6" />
@@ -67,7 +66,6 @@ function toggleMobileMenu() {
                         <Link 
                             :href="route('vetgo')"
                             class="nav-link-pastel"
-                            :class="{ 'nav-link-active': $page.url.includes('/vetgo') }"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l5-3 5 3z" />
@@ -77,8 +75,7 @@ function toggleMobileMenu() {
 
                         <Link 
                             :href="route('cadastrar')"
-                            class="nav-link-pastel"
-                            :class="{ 'nav-link-active': $page.url.includes('/cadastro') }"
+                            class="nav-link-pastel nav-link-active"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -93,10 +90,10 @@ function toggleMobileMenu() {
                         <div class="hidden sm:flex items-center space-x-3">
                             <div class="text-right">
                                 <p class="text-sm font-medium text-gray-700">
-                                    {{ $page.props.auth.user ? 'Olá!' : 'Bem-vindo!' }}
+                                    {{ $page.props.auth?.user ? 'Olá!' : 'Bem-vindo!' }}
                                 </p>
                                 <p class="text-xs text-gray-500">
-                                    {{ $page.props.auth.user ? $page.props.auth.user.name : 'Visitante' }}
+                                    {{ $page.props.auth?.user ? $page.props.auth.user.name : 'Visitante' }}
                                 </p>
                             </div>
                             <div class="w-8 h-8 bg-gradient-to-br from-pastel-blue to-pastel-green rounded-full flex items-center justify-center">
@@ -109,7 +106,7 @@ function toggleMobileMenu() {
 
                         <!-- Logout Button - Desktop -->
                         <button 
-                            v-if="$page.props.auth.user"
+                            v-if="$page.props.auth?.user"
                             @click="logout" 
                             class="hidden md:flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white/50 hover:bg-white/80 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200"
                         >
@@ -138,10 +135,10 @@ function toggleMobileMenu() {
                         <!-- User Info Mobile -->
                         <div class="px-3 py-2 border-b border-gray-200 mb-2">
                             <p class="text-sm font-medium text-gray-700">
-                                {{ $page.props.auth.user ? $page.props.auth.user.name : 'Visitante' }}
+                                {{ $page.props.auth?.user ? $page.props.auth.user.name : 'Visitante' }}
                             </p>
                             <p class="text-xs text-gray-500">
-                                {{ $page.props.auth.user ? 'Estudante de Veterinária' : 'Bem-vindo ao VetGo' }}
+                                {{ $page.props.auth?.user ? 'Estudante de Veterinária' : 'Bem-vindo ao VetGo' }}
                             </p>
                         </div>
 
@@ -170,7 +167,7 @@ function toggleMobileMenu() {
 
                         <Link 
                             :href="route('cadastrar')"
-                            class="mobile-nav-link"
+                            class="mobile-nav-link bg-gray-100 font-semibold"
                             @click="isMobileMenuOpen = false"
                         >
                             <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,7 +178,7 @@ function toggleMobileMenu() {
 
                         <!-- Mobile Logout -->
                         <button 
-                            v-if="$page.props.auth.user"
+                            v-if="$page.props.auth?.user"
                             @click="logout; isMobileMenuOpen = false" 
                             class="mobile-nav-link w-full text-left text-red-600 hover:bg-red-50"
                         >

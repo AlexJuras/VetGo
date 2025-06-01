@@ -79,6 +79,6 @@ class ClinicController extends Controller
     public function destroy(Clinic $clinic)
     {
         $clinic->delete();
-        return redirect()->route('clinics.index');
+        return redirect()->route('clinics.index')->with('success', 'Clínica excluída com sucesso!');
     }
 }
