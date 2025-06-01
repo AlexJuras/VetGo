@@ -363,8 +363,8 @@
             <!-- Footer -->
             <div class="text-center mt-6">
                 <p class="text-sm text-gray-500">
-                    © 2025 VetGo - Clínica Veterinária Acadêmica. Todos os
-                    direitos reservados.
+                    VetGo © 2025 — Todos os direitos reservados. <br/>
+                    Projeto desenvolvido pelos alunos da Uninassau de Parnaíba.
                 </p>
             </div>
         </div>
