@@ -13,8 +13,10 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        $clinics = Animal::all();
-        return Inertia::render('Animal/Index', compact('animals'));
+        // $clinics = Animal::all(); //----------------------Adaptar quando tiver o model e controller Clinic configurados corretamente
+        // return Inertia::render('Animal/Index', compact('animals'));
+        $animals = Animal::all();
+        return inertia('Animal/Index', compact('animals'));
     }
 
     /**
@@ -31,17 +33,17 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nome' => 'required',
-            'especie' => 'required',
-            'raca' => 'nullable',
-            'data_nascimento' => 'nullable',
-            'dono_id' => 'required'
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
+            'especie' => 'required|string|max:255',
+            'detalhes' => 'nullable|string|max:255',
+            'data_nascimento' => 'nullable|date',
+            'dono_id' => 'nullable|exists:tutors,id'
         ]);
 
-        Animal::create($request->all());
+        Animal::create($validated);
 
-        return redirect()->route('animal.index');
+        return redirect()->route('animals.index')->with('success', 'Cadastro realizado!.');
     }
 
     /**
@@ -64,15 +66,15 @@ class AnimalController extends Controller
      */
     public function update(Request $request, Animal $animal)
     {
-        $request->validate([
-            'nome' => 'required',
-            'especie' => 'required',
-            'raca' => 'nullable',
-            'data_nascimento' => 'nullable',
-            'dono_id' => 'required'
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
+            'especie' => 'required|string|max:255',
+            'detalhes' => 'nullable|string|max:255',
+            'data_nascimento' => 'nullable|date',
+            'dono_id' => 'nullable|exists:tutors,id'
         ]);
 
-        $animal->update($request->all());
+        $animal->update($validated);
         return redirect()->route('animals.index');
     }
 
