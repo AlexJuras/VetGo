@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('especie');
-            $table->string('raca')->nullable();
             $table->date('data_nascimento')->nullable();
-            $table->foreignId('tutor_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('tutor_id')->constrained()->onDelete('cascade');
+            $table->string('detalhes')->nullable();
             $table->timestamps();
         });
     }

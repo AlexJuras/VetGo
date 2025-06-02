@@ -14,6 +14,7 @@ class Animal extends Model
         'especie',
         'raca',
         'data_nascimento',
+        'detalhes',
         'dono_id'
     ];
 
