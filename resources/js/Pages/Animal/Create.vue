@@ -69,7 +69,7 @@
                             {{ form.errors.nome }}
                         </p>
                         <p class="text-xs text-gray-500 mt-1">
-                            Princesa, Goku, Nina, Frajola...
+                            Princesa, Bambi, Nina, Chaline...
                         </p>
                     </div>
 
