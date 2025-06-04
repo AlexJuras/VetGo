@@ -10,7 +10,7 @@ class TutorController extends Controller
 {
     public function index()
     {
-        $tutors = Tutor::all();
+        $tutors = Tutor::with('animals')->get();
         return Inertia::render('Tutor/Index', compact('tutors'));
     }
 
@@ -35,7 +35,7 @@ class TutorController extends Controller
 
         Tutor::create($request->all());
 
-        return redirect()->route('tutors.index');
+        return redirect()->route('tutors.index')->with('success', 'Tutor cadastrado!');
     }
 
     public function show(Tutor $tutor)

@@ -151,7 +151,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
-                                            {{ tutor.animais.length }} {{ tutor.animais.length === 1 ? 'animal' : 'animais' }}
+                                            {{ tutor.animals.length }} {{ tutor.animals.length === 1 ? 'animal' : 'animais' }}
                                         </button>
                                     </td>
                                     <td class="py-4 px-6">
@@ -208,7 +208,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
-                                        {{ tutor.animais.length }} {{ tutor.animais.length === 1 ? 'animal' : 'animais' }}
+                                        {{ tutor.animals.length }} {{ tutor.animals.length === 1 ? 'animal' : 'animais' }}
                                     </button>
                                     <div class="flex space-x-2">
                                         <Link :href="route('tutors.edit', tutor.id)" 
@@ -302,7 +302,7 @@
     </div>
 
     <!-- Modal de Animais -->
-    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="closeModal">
+    <div v-if="showModal" class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center p-4 z-50" @click="closeModal">
         <div class="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto" @click.stop>
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
@@ -319,8 +319,8 @@
                     </button>
                 </div>
                 
-                <div v-if="selectedTutor?.animais && selectedTutor.animais.length > 0" class="space-y-3">
-                    <div v-for="animal in selectedTutor.animais" :key="animal.id" 
+                <div v-if="selectedTutor?.animals && selectedTutor.animals.length > 0" class="space-y-3">
+                    <div v-for="animal in selectedTutor.animals" :key="animal.id" 
                          class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
@@ -351,7 +351,7 @@
     </div>
 
     <!-- Modal de Confirmação de Exclusão -->
-    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click="closeDeleteModal">
+    <div v-if="showDeleteModal" class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center p-4 z-50" @click="closeDeleteModal">
         <div class="bg-white rounded-lg max-w-md w-full" @click.stop>
             <div class="p-6">
                 <div class="flex items-center mb-4">

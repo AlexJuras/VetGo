@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Animal;
+use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,7 +25,10 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Animal/Create');
+        $tutors = Tutor::all();
+        return Inertia::render('Animal/Create', [
+            'tutors' => $tutors
+        ]);
 
     }
 
@@ -38,7 +42,7 @@ class AnimalController extends Controller
             'especie' => 'required|string|max:255',
             'detalhes' => 'nullable|string|max:255',
             'data_nascimento' => 'nullable|date',
-            'dono_id' => 'nullable|exists:tutors,id'
+            'tutor_id' => 'required|exists:tutors,id'
         ]);
 
         Animal::create($validated);

@@ -253,10 +253,9 @@
                                 required
                             >
                                 <option value="">Selecione o gênero</option>
-                                <option value="masculino">Masculino</option>
-                                <option value="feminino">Feminino</option>
-                                <option value="outro">Outro</option>
-                                <option value="prefiro_nao_informar">Prefiro não informar</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Feminino">Feminino</option>
+                                <option value="Outro">Outro</option>
                             </select>
                             <p
                                 v-if="form.errors.genero"

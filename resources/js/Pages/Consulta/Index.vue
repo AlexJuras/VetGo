@@ -258,7 +258,7 @@
     <!-- Modal de detalhes (se necessário) -->
     <div
         v-if="consultaSelecionada"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+        class="fixed inset-0 bg-white/10 backdrop-blur-sm flex items-center justify-center p-4 z-50"
         @click="fecharModal"
     >
         <div

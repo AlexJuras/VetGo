@@ -58,7 +58,7 @@ function closeDrawer() {
         <!-- Navigation Drawer -->
         <aside 
             :class="[
-                'fixed top-0 left-0 z-50 h-full w-80 drawer-background backdrop-blur-lg shadow-2xl border-r border-white/20 transform transition-transform duration-300 ease-in-out',
+                'fixed top-0 left-0 z-50 h-full w-60 drawer-background backdrop-blur-lg shadow-2xl border-r border-white/20 transform transition-transform duration-300 ease-in-out',
                 isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
             ]"
         >
