@@ -13,7 +13,7 @@ class ConsultaController extends Controller
      */
     public function index()
     {
-        $consulta = Consulta::all();
+        $consultas = Consulta::all();
         return Inertia::render('Consulta/Index', compact('consultas'));
     }
 

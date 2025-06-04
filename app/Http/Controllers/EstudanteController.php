@@ -10,7 +10,7 @@ class EstudanteController extends Controller
 {
     public function index()
     {
-        $tutors = Estudante::all();
+        $estudantes = Estudante::all();
         return Inertia::render('Estudante/Index', compact('estudantes'));
     }
 

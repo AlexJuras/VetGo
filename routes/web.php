@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\Auth\{CadastroController, LoginController};
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ClinicController, AnimalController, ConsultaController, EstudanteController, TutorController};
+use App\Http\Controllers\{ClinicController, AnimalController, ConsultaController, EstudanteController, TutorController, UserController};
 use Inertia\Inertia;
 
-Route::inertia('/vetgo', 'VetGo', ['faculdade' => 'Uninassau'])->name('vetgo');
+Route::inertia('/vetgo', 'VetGo')->name('vetgo');
 Route::inertia('/cadastrar', 'Auth/Cadastrar')->name('cadastrar');
 Route::inertia('/login', 'Auth/Login')->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
@@ -27,11 +27,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/estudantes/{estudante}/edit', [EstudanteController::class, 'edit'])->name('estudantes.edit');
     Route::resource('consultas', ConsultaController::class);
     Route::get('/consultas/create', [ConsultaController::class, 'create'])->name('consultas.create');
+    Route::get('/consultas/{consulta}/edit', [ConsultaController::class, 'edit'])->name('consultas.edit');
+    Route::resource('users', UserController::class);
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::get('/', function () {
         return Inertia::render('Home');
     })->name('home');
 });
-
 
 // Com o Inertia eu posso fazer a rota acima:
 // 1º valor: URL

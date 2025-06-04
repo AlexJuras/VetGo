@@ -9,7 +9,17 @@ class Tutor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome', 'cpf', 'telefone'];
+    protected $fillable = [
+        'nome',
+        'cpf',
+        'telefone',
+        'data_nascimento',
+        'email',
+        'genero',
+        'cidade',
+        'estado',
+        'observacoes',
+    ];
 
     public function animals()
     {

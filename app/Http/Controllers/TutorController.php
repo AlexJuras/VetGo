@@ -24,7 +24,13 @@ class TutorController extends Controller
         $request->validate([
             'nome' => 'required',
             'cpf' => 'required|unique:tutors',
-            'telefone' => 'nullable'
+            'telefone' => 'nullable',
+            'data_nascimento' => 'nullable|date',
+            'email' => 'nullable|email',
+            'genero' => 'nullable|string',
+            'cidade' => 'nullable|string',
+            'estado' => 'nullable|string',
+            'observacoes' => 'nullable|string',
         ]);
 
         Tutor::create($request->all());
@@ -47,7 +53,13 @@ class TutorController extends Controller
         $request->validate([
             'nome' => 'required',
             'cpf' => 'required|unique:tutors,cpf,'.$tutor->id,
-            'telefone' => 'nullable'
+            'telefone' => 'nullable',
+            'data_nascimento' => 'nullable|date',
+            'email' => 'nullable|email',
+            'genero' => 'nullable|string',
+            'cidade' => 'nullable|string',
+            'estado' => 'nullable|string',
+            'observacoes' => 'nullable|string',
         ]);
 
         $tutor->update($request->all());
