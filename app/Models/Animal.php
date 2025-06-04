@@ -12,10 +12,9 @@ class Animal extends Model
     protected $fillable = [
         'nome',
         'especie',
-        'raca',
         'data_nascimento',
         'detalhes',
-        'dono_id'
+        'tutor_id',
     ];
 
     public function tutor()

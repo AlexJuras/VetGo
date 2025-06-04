@@ -51,70 +51,41 @@ function toggleMobileMenu() {
                         </div>
                     </div>
 
-                    <!-- Navigation Links - Desktop -->
-                    <div class="hidden md:flex items-center space-x-1">
-                        <Link 
-                            :href="route('home')"
-                            class="nav-link-pastel"
-                        >
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18l-2 9H5l-2-9zm0 0l2-5h14l2 5M9 11v6m6-6v6" />
-                            </svg>
-                            Home
-                        </Link>
-                        
+                    <!-- Actions -->
+                    <div class="flex items-center space-x-3">
+                        <!-- Botão Sobre - Menos destacado -->
                         <Link 
                             :href="route('vetgo')"
-                            class="nav-link-pastel"
+                            class="hidden md:flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 bg-white/40 hover:bg-white/60 rounded-lg border border-gray-200/50 hover:border-gray-300 transition-all duration-200"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l5-3 5 3z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            VetGo
+                            Sobre
                         </Link>
 
+                        <!-- Botão Login - Menos destacado -->
                         <Link 
-                            :href="route('cadastrar')"
-                            class="nav-link-pastel nav-link-active"
+                            v-if="!$page.props.auth?.user"
+                            :href="route('login')"
+                            class="hidden md:flex items-center px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 bg-white/40 hover:bg-white/60 rounded-lg border border-gray-200/50 hover:border-gray-300 transition-all duration-200"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                            </svg>
+                            Login
+                        </Link>
+
+                        <!-- Cadastrar Button - Destacado -->
+                        <Link 
+                            :href="route('cadastrar')"
+                            class="hidden md:flex items-center px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-pastel-purple to-pastel-pink hover:from-purple-600 hover:to-pink-600 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                        >
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
                             Cadastrar
                         </Link>
-                    </div>
-
-                    <!-- User Info & Actions -->
-                    <div class="flex items-center space-x-4">
-                        <!-- User Welcome -->
-                        <div class="hidden sm:flex items-center space-x-3">
-                            <div class="text-right">
-                                <p class="text-sm font-medium text-gray-700">
-                                    {{ $page.props.auth?.user ? 'Olá!' : 'Bem-vindo!' }}
-                                </p>
-                                <p class="text-xs text-gray-500">
-                                    {{ $page.props.auth?.user ? $page.props.auth.user.name : 'Visitante' }}
-                                </p>
-                            </div>
-                            <div class="w-8 h-8 bg-gradient-to-br from-pastel-blue to-pastel-green rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7c0-2.21-1.79-4-4-4S8 4.79 8 7s1.79 4 4 4 4-1.79 4-4z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        <!-- Logout Button - Desktop -->
-                        <button 
-                            v-if="$page.props.auth?.user"
-                            @click="logout" 
-                            class="hidden md:flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white/50 hover:bg-white/80 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200"
-                        >
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
-                            Sair
-                        </button>
 
                         <!-- Mobile Menu Button -->
                         <button
@@ -132,25 +103,12 @@ function toggleMobileMenu() {
                 <!-- Mobile Menu -->
                 <div v-show="isMobileMenuOpen" class="md:hidden">
                     <div class="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-sm rounded-lg mt-2 shadow-lg border border-gray-200">
-                        <!-- User Info Mobile -->
-                        <div class="px-3 py-2 border-b border-gray-200 mb-2">
-                            <p class="text-sm font-medium text-gray-700">
-                                {{ $page.props.auth?.user ? $page.props.auth.user.name : 'Visitante' }}
-                            </p>
-                            <p class="text-xs text-gray-500">
-                                {{ $page.props.auth?.user ? 'Estudante de Veterinária' : 'Bem-vindo ao VetGo' }}
-                            </p>
-                        </div>
-
                         <!-- Mobile Navigation Links -->
                         <Link 
                             :href="route('home')"
                             class="mobile-nav-link"
                             @click="isMobileMenuOpen = false"
                         >
-                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18l-2 9H5l-2-9zm0 0l2-5h14l2 5M9 11v6m6-6v6" />
-                            </svg>
                             Home
                         </Link>
                         
@@ -159,15 +117,35 @@ function toggleMobileMenu() {
                             class="mobile-nav-link"
                             @click="isMobileMenuOpen = false"
                         >
-                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l5-3 5 3z" />
-                            </svg>
                             VetGo
                         </Link>
 
                         <Link 
+                            :href="route('vetgo')"
+                            class="mobile-nav-link"
+                            @click="isMobileMenuOpen = false"
+                        >
+                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Sobre
+                        </Link>
+
+                        <Link 
+                            v-if="!$page.props.auth?.user"
+                            :href="route('login')"
+                            class="mobile-nav-link"
+                            @click="isMobileMenuOpen = false"
+                        >
+                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                            </svg>
+                            Login
+                        </Link>
+
+                        <Link 
                             :href="route('cadastrar')"
-                            class="mobile-nav-link bg-gray-100 font-semibold"
+                            class="mobile-nav-link-destacado"
                             @click="isMobileMenuOpen = false"
                         >
                             <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,9 +160,6 @@ function toggleMobileMenu() {
                             @click="logout; isMobileMenuOpen = false" 
                             class="mobile-nav-link w-full text-left text-red-600 hover:bg-red-50"
                         >
-                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
                             Sair
                         </button>
                     </div>
@@ -265,6 +240,25 @@ function toggleMobileMenu() {
 }
 .mobile-nav-link:hover {
     background: #f3f4f6;
+}
+
+.mobile-nav-link-destacado {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, #a855f7, #ec4899);
+    margin: 0.5rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.mobile-nav-link-destacado:hover {
+    background: linear-gradient(135deg, #9333ea, #db2777);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
 }
 
 /* Pastel Colors */

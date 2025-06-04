@@ -1,5 +1,4 @@
 <script setup>
-import { defineOptions } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import AuthLayout from '../Layouts/AuthLayout.vue';
 

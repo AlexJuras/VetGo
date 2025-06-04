@@ -15,6 +15,12 @@ return new class extends Migration {
             $table->string('nome');
             $table->string('cpf')->unique();
             $table->string('telefone')->nullable();
+            $table->date('data_nascimento')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->enum('genero', ['Masculino', 'Feminino', 'Outro'])->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('estado', 2)->nullable();
+            $table->text('observacoes')->nullable();
             $table->timestamps();
         });
     }

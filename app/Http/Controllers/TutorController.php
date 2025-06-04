@@ -10,7 +10,7 @@ class TutorController extends Controller
 {
     public function index()
     {
-        $tutors = Tutor::all();
+        $tutors = Tutor::with('animals')->get();
         return Inertia::render('Tutor/Index', compact('tutors'));
     }
 
@@ -24,12 +24,18 @@ class TutorController extends Controller
         $request->validate([
             'nome' => 'required',
             'cpf' => 'required|unique:tutors',
-            'telefone' => 'nullable'
+            'telefone' => 'nullable',
+            'data_nascimento' => 'nullable|date',
+            'email' => 'nullable|email',
+            'genero' => 'nullable|string',
+            'cidade' => 'nullable|string',
+            'estado' => 'nullable|string',
+            'observacoes' => 'nullable|string',
         ]);
 
         Tutor::create($request->all());
 
-        return redirect()->route('tutors.index');
+        return redirect()->route('tutors.index')->with('success', 'Tutor cadastrado!');
     }
 
     public function show(Tutor $tutor)
@@ -47,7 +53,13 @@ class TutorController extends Controller
         $request->validate([
             'nome' => 'required',
             'cpf' => 'required|unique:tutors,cpf,'.$tutor->id,
-            'telefone' => 'nullable'
+            'telefone' => 'nullable',
+            'data_nascimento' => 'nullable|date',
+            'email' => 'nullable|email',
+            'genero' => 'nullable|string',
+            'cidade' => 'nullable|string',
+            'estado' => 'nullable|string',
+            'observacoes' => 'nullable|string',
         ]);
 
         $tutor->update($request->all());
