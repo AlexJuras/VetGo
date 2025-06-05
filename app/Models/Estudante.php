@@ -12,13 +12,16 @@ class Estudante extends Model
     protected $fillable = [
         'clinic_id',
         'nome',
+        'cpf',
+        'data_nascimento',
+        'telefone',
         'matricula'
     ];
 
-    public function clinic()
-    {
-        return $this->belongsTo(Clinic::class);
-    }
+    // public function clinic()
+    // {
+    //     return $this->belongsTo(Clinic::class);
+    // }
 
     public function consultas()
     {
