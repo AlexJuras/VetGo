@@ -16,7 +16,7 @@ class AnimalController extends Controller
     {
         // $clinics = Animal::all(); //----------------------Adaptar quando tiver o model e controller Clinic configurados corretamente
         // return Inertia::render('Animal/Index', compact('animals'));
-        $animals = Animal::all();
+        $animals = Animal::with('tutor')->get();
         return inertia('Animal/Index', compact('animals'));
     }
 
@@ -62,7 +62,11 @@ class AnimalController extends Controller
      */
     public function edit(Animal $animal)
     {
-        return Inertia::render('Animal/Edit', compact('animal'));
+        $tutors = Tutor::all();
+        return Inertia::render('Animal/Edit', [
+            'animal' => $animal,
+            'tutors' => $tutors
+        ]);
     }
 
     /**
@@ -75,7 +79,7 @@ class AnimalController extends Controller
             'especie' => 'required|string|max:255',
             'detalhes' => 'nullable|string|max:255',
             'data_nascimento' => 'nullable|date',
-            'dono_id' => 'nullable|exists:tutors,id'
+            'tutor_id' => 'nullable|exists:tutors,id'
         ]);
 
         $animal->update($validated);

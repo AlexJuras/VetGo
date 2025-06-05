@@ -14,6 +14,7 @@ class Animal extends Model
         'especie',
         'data_nascimento',
         'detalhes',
+        'status',
         'tutor_id',
     ];
 
