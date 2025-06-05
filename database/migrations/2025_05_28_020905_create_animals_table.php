@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nome');
             $table->string('especie');
             $table->date('data_nascimento')->nullable();
-            $table->foreignId('tutor_id')->constrained()->onDelete('cascade');
             $table->string('detalhes')->nullable();
             $table->enum('status', [
                 'Ausente',

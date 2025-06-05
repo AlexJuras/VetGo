@@ -22,9 +22,11 @@ class EstudanteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'nome' => 'required',
             'cpf' => 'required|unique:estudantes',
-            'phone' => 'nullable'
+            'telefone' => 'nullable',
+            'matricula' => 'required|unique:estudantes',
+            'clinic_id' => 'nullable',
         ]);
 
         Estudante::create($request->all());
@@ -45,9 +47,12 @@ class EstudanteController extends Controller
     public function update(Request $request, Estudante $estudante)
     {
         $request->validate([
-            'name' => 'required',
+            'nome' => 'required',
             'cpf' => 'required|unique:estudantes,cpf,'.$estudante->id,
-            'phone' => 'nullable'
+            'telefone' => 'nullable',
+            'data_nascimento' => 'nullable|date',
+            'matricula' => 'required|unique:estudantes,matricula,'.$estudante->id,
+            'clinic_id' => 'nullable',
         ]);
 
         $estudante->update($request->all());

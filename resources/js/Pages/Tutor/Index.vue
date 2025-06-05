@@ -290,14 +290,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Footer -->
-            <div class="text-center mt-6">
-                <p class="text-sm text-gray-500">
-                    VetGo © 2025 — Todos os direitos reservados. <br/>
-                    Projeto desenvolvido pelos alunos da Uninassau de Parnaíba.
-                </p>
-            </div>
         </div>
     </div>
 
