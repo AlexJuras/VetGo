@@ -111,9 +111,9 @@
                     <div class="absolute top-4 right-4">
                         <span
                             class="px-2 py-1 text-xs font-semibold rounded-full"
-                            :class="getStatusClass(consulta.status)"
+                            :class="getStatusClass(calcularStatusConsulta(consulta))"
                         >
-                            {{ getStatusText(consulta.status) }}
+                            {{ getStatusText(calcularStatusConsulta(consulta)) }}
                         </span>
                     </div>
 
@@ -157,7 +157,7 @@
                             <svg class="w-4 h-4 text-pastel-green mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                             </svg>
-                            <span class="text-xs text-gray-600">{{ consulta.veterinario }}</span>
+                            <span class="text-xs text-gray-600">{{ consulta.estudante }}</span>
                         </div>
 
                         <!-- Valor -->
@@ -290,7 +290,7 @@
                 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Veterinário</label>
-                    <p class="text-sm text-gray-600">{{ consultaSelecionada.veterinario }}</p>
+                    <p class="text-sm text-gray-600">{{ consultaSelecionada.estudante }}</p>
                 </div>
                 
                 <div>
@@ -321,77 +321,22 @@
 
 <script>
 import { computed, ref, reactive } from "vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 
 export default {
     components: {
         Head,
     },
 
-    setup() {
-        // Dados mock das consultas
-        const consultas = ref([
-            {
-                id: 1,
-                tutor: "João Silva",
-                animal: "Princesa (Cachorro)",
-                veterinario: "Dr. Carlos Mendes - Clínico Geral",
-                data_consulta: "2025-06-05",
-                horario: "09:00",
-                forma_pagamento: "PIX",
-                valor: 120.00,
-                status: "agendada",
-                observacoes: "Animal apresentando sintomas de apatia e perda de apetite há 3 dias."
-            },
-            {
-                id: 2,
-                tutor: "Maria Santos",
-                animal: "Bambi (Gato)",
-                veterinario: "Dra. Fernanda Lima - Cardiologia",
-                data_consulta: "2025-06-03",
-                horario: "14:30",
-                forma_pagamento: "Cartão de Crédito",
-                valor: 180.00,
-                status: "em_andamento",
-                observacoes: ""
-            },
-            {
-                id: 3,
-                tutor: "Pedro Oliveira",
-                animal: "Nina (Cachorro)",
-                veterinario: "Dr. Roberto Alves - Cirurgia",
-                data_consulta: "2025-06-02",
-                horario: "16:00",
-                forma_pagamento: "Dinheiro",
-                valor: 250.00,
-                status: "concluida",
-                observacoes: "Cirurgia de castração realizada com sucesso. Animal se recuperando bem."
-            },
-            {
-                id: 4,
-                tutor: "Ana Costa",
-                animal: "Chaline (Gato)",
-                veterinario: "Dra. Luciana Costa - Dermatologia",
-                data_consulta: "2025-06-06",
-                horario: "10:30",
-                forma_pagamento: "PIX",
-                valor: 150.00,
-                status: "agendada",
-                observacoes: "Lesões na pele, possível alergia alimentar."
-            },
-            {
-                id: 5,
-                tutor: "Carlos Lima",
-                animal: "Thor (Cachorro)",
-                veterinario: "Dr. Carlos Mendes - Clínico Geral",
-                data_consulta: "2025-06-01",
-                horario: "08:00",
-                forma_pagamento: "Cartão de Débito",
-                valor: 100.00,
-                status: "cancelada",
-                observacoes: "Consulta de rotina cancelada pelo tutor."
-            }
-        ]);
+    props: {
+        consultas: {
+            type: Array,
+            default: () => [],
+        },
+    },
+
+    setup(props) {
+        const consultas = ref(props.consultas);
 
         // Filtros reativos
         const filtros = reactive({
@@ -413,7 +358,7 @@ export default {
                 resultado = resultado.filter(consulta =>
                     consulta.tutor.toLowerCase().includes(termo) ||
                     consulta.animal.toLowerCase().includes(termo) ||
-                    consulta.veterinario.toLowerCase().includes(termo)
+                    consulta.estudante.toLowerCase().includes(termo)
                 );
             }
 
@@ -441,10 +386,10 @@ export default {
             return consultas.value.filter(c => c.data_consulta === hoje).length;
         });
         const consultasPendentes = computed(() =>
-            consultas.value.filter(c => c.status === 'agendada').length
+        consultas.value.filter(c => calcularStatusConsulta(c) === 'agendada').length
         );
         const consultasConcluidas = computed(() =>
-            consultas.value.filter(c => c.status === 'concluida').length
+        consultas.value.filter(c => calcularStatusConsulta(c) === 'concluida').length
         );
 
         // Métodos
@@ -469,10 +414,11 @@ export default {
 
         const cancelarConsulta = (id) => {
             if (confirm('Tem certeza que deseja cancelar esta consulta?')) {
-                const index = consultas.value.findIndex(c => c.id === id);
-                if (index !== -1) {
-                    consultas.value[index].status = 'cancelada';
-                }
+                router.put(route('consultas.cancelar', id), {}, {
+                    onSuccess: () => {
+                        router.reload({ only: ['consultas'] });
+                    }
+                });
             }
         };
 
@@ -509,6 +455,23 @@ export default {
             return parseFloat(valor).toFixed(2).replace('.', ',');
         };
 
+        const calcularStatusConsulta = (consulta) => {
+            if (consulta.status === 'cancelada') {
+                return 'cancelada';
+            }
+            const agora = new Date();
+            const inicio = new Date(consulta.data_consulta + 'T' + consulta.horario);
+            const fim = new Date(inicio.getTime() + 60 * 60 * 1000); // Até 1 hora depois da consulta ainda está em andamento
+            if (agora < inicio) {
+                return 'agendada';
+            } else if (agora >= inicio && agora <= fim) {
+                return 'em_andamento';
+            } else if (agora > fim) {
+                return 'concluida';
+            }
+            return 'agendada';
+        };
+
         return {
             consultas,
             filtros,
@@ -526,7 +489,8 @@ export default {
             getStatusClass,
             getStatusText,
             formatarData,
-            formatarValor
+            formatarValor,
+            calcularStatusConsulta
         };
     },
 };

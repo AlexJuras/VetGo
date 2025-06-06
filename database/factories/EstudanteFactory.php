@@ -17,7 +17,11 @@ class EstudanteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nome' => $this->faker->name(),
+            'cpf' => $this->faker->unique()->numerify('###.###.###-##'),    
+            'telefone' => $this->faker->phoneNumber(),
+            'data_nascimento' => $this->faker->date(),
+            'matricula' => $this->faker->unique()->numerify('MATRICULA-####'),
         ];
     }
 }

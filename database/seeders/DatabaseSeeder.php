@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Animal;
+use App\Models\Estudante;
 use App\Models\Tutor;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -28,6 +29,8 @@ class DatabaseSeeder extends Seeder
     Tutor::factory()->count(5)->has(Animal::factory()->count(3))->create();
     //------------------------------- Cria 10 animais, cada um com um tutor diferente
     // Animal::factory()->count(10)->create();
+    //------------------------------- Cria 5 Estudantes
+    Estudante::factory()->count(5)->create();
     
         
 

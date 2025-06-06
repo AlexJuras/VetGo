@@ -4,7 +4,7 @@
     <Head title=" | Home"/>
     <Layout>
         <div>
-            <h1>Hello</h1>
+            <h1>Em desenvolvimento</h1>
         </div>
     </Layout>
 </template>

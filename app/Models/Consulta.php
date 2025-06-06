@@ -10,10 +10,15 @@ class Consulta extends Model
     use HasFactory;
 
     protected $fillable = [
-        'clinic_id',
         'animal_id',
-        'marcada_para',
-        'motivo'
+        'estudante_id',
+        'data_consulta',
+        'horario',
+        'valor',
+        'forma_pagamento',
+        'tipo_consulta',
+        'status',
+        'observacoes',
     ];
 
     public function clinic()

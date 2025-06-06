@@ -22,7 +22,7 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"
                         />
                     </svg>
                 </div>
@@ -62,11 +62,10 @@
                                 class="input-pastel"
                                 required
                             >
-                                <option value="">Selecione o tutor</option>
-                                <option value="1">João Silva</option>
-                                <option value="2">Maria Santos</option>
-                                <option value="3">Pedro Oliveira</option>
-                                <option value="4">Ana Costa</option>
+                                <option v-for="tutor in props.tutores" :key="tutor.id" :value="tutor.id">
+                                    {{ tutor.nome }} ({{ tutor.cpf }})
+
+                                </option>
                             </select>
                             <p
                                 v-if="form.errors.tutor_id"
@@ -102,11 +101,9 @@
                                 required
                                 :disabled="!form.tutor_id"
                             >
-                                <option value="">Selecione o animal</option>
-                                <option value="1">Princesa (Cachorro)</option>
-                                <option value="2">Bambi (Gato)</option>
-                                <option value="3">Nina (Cachorro)</option>
-                                <option value="4">Chaline (Gato)</option>
+                                <option v-for="animal in AnimaisFiltrados" :key="animal.id" :value="animal.id">
+                                    {{ animal.nome }} ({{ animal.especie }})
+                                </option>
                             </select>
                             <p
                                 v-if="form.errors.animal_id"
@@ -120,43 +117,84 @@
                         </div>
                     </div>
 
-                    <!-- Segunda linha: Veterinário -->
-                    <div class="form-group">
-                        <label
-                            class="block text-sm font-semibold text-gray-700 mb-2"
-                        >
-                            <svg
-                                class="inline w-4 h-4 mr-2 text-pastel-green"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                    <!-- Segunda linha: Veterinário e Tipo de Consulta -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Campo Veterinário -->
+                        <div class="form-group">
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-2"
                             >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                                />
-                            </svg>
-                            Veterinário
-                        </label>
-                        <select
-                            v-model="form.veterinario_id"
-                            class="input-pastel"
-                            required
-                        >
-                            <option value="">Selecione o veterinário</option>
-                            <option value="1">Dr. Carlos Mendes - Clínico Geral</option>
-                            <option value="2">Dra. Fernanda Lima - Cardiologia</option>
-                            <option value="3">Dr. Roberto Alves - Cirurgia</option>
-                            <option value="4">Dra. Luciana Costa - Dermatologia</option>
-                        </select>
-                        <p
-                            v-if="form.errors.veterinario_id"
-                            class="text-xs text-red-500 mt-1"
-                        >
-                            {{ form.errors.veterinario_id }}
-                        </p>
+                                <svg
+                                    class="inline w-4 h-4 mr-2 text-pastel-green"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                                    />
+                                </svg>
+                                Veterinário
+                            </label>
+                            <select
+                                v-model="form.estudante_id"
+                                class="input-pastel"
+                                required
+                            >
+                                <option v-for="estudante in props.estudantes" :key="estudante.id" :value="estudante.id">
+                                    {{ estudante.nome }} ({{ estudante.cpf }})
+                                </option>
+                            </select>
+                            <p
+                                v-if="form.errors.estudante_id"
+                                class="text-xs text-red-500 mt-1"
+                            >
+                                {{ form.errors.estudante_id }}
+                            </p>
+                        </div>
+
+                        <!-- Campo Tipo de Consulta -->
+                        <div class="form-group">
+                            <label
+                                class="block text-sm font-semibold text-gray-700 mb-2"
+                            >
+                                <svg
+                                    class="inline w-4 h-4 mr-2 text-pastel-cyan"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                                    />
+                                </svg>
+                                Tipo de Consulta
+                            </label>
+                            <select
+                                v-model="form.tipo_consulta"
+                                class="input-pastel"
+                                required
+                            >
+                                <option v-for="tipo of ['Rotina', 'Emergência', 'Retorno', 'Exame', 'Outros']" :key="tipo" :value="tipo">
+                                    {{ tipo }}
+                                </option>
+                            </select>
+                            <p
+                                v-if="form.errors.tipo_consulta"
+                                class="text-xs text-red-500 mt-1"
+                            >
+                                {{ form.errors.tipo_consulta }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Selecione o tipo da consulta veterinária
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Terceira linha: Data e Horário -->
@@ -185,7 +223,7 @@
                                 type="date"
                                 v-model="form.data_consulta"
                                 class="input-pastel"
-                                :min="today"
+                                
                                 required
                             />
                             <p
@@ -216,29 +254,14 @@
                                 </svg>
                                 Horário
                             </label>
-                            <select
+                            <input
+                                type="time"
+                                step="60"
                                 v-model="form.horario"
                                 class="input-pastel"
                                 required
                             >
-                                <option value="">Selecione o horário</option>
-                                <option value="08:00">08:00</option>
-                                <option value="08:30">08:30</option>
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                            </select>
+                            </input>
                             <p
                                 v-if="form.errors.horario"
                                 class="text-xs text-red-500 mt-1"
@@ -275,12 +298,9 @@
                                 class="input-pastel"
                                 required
                             >
-                                <option value="">Selecione a forma de pagamento</option>
-                                <option value="dinheiro">Dinheiro</option>
-                                <option value="cartao_credito">Cartão de Crédito</option>
-                                <option value="cartao_debito">Cartão de Débito</option>
-                                <option value="pix">PIX</option>
-                                <option value="transferencia">Transferência Bancária</option>
+                                <option v-for="forma in ['Dinheiro', 'Cartão de Crédito', 'Cartão de Débito', 'Pix', 'Transferência bancária']" :key="forma" :value="forma">
+                                    {{ forma }}
+                                </option>
                             </select>
                             <p
                                 v-if="form.errors.forma_pagamento"
@@ -383,11 +403,11 @@
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
                         <button
                             type="submit"
-                            :disabled="!isFormValid || form.processing"
+                            :disabled="!validacaoFormulario || form.processing"
                             class="btn-pastel-primary flex-1 text-lg py-4 relative"
                             :class="{
-                                'opacity-50 cursor-not-allowed':
-                                    !isFormValid || form.processing,
+                                'cursor-not-allowed':
+                                    !validacaoFormulario || form.processing,
                             }"
                         >
                             <span v-if="!form.processing">
@@ -472,6 +492,7 @@
                                 <li>• Traga a carteira de vacinação do animal</li>
                                 <li>• Cancele com antecedência mínima de 2 horas</li>
                                 <li>• Consultas de emergência têm valores diferenciados</li>
+                                <li>• Retornos são válidos por até 15 dias após a consulta inicial</li>
                             </ul>
                         </div>
                     </div>
@@ -513,17 +534,40 @@ export default {
         Head,
     },
 
-    setup() {
+    props: {
+        tutores: {
+            type: Array,
+            default: () => [],
+        },
+        animals: {
+            type: Array,
+            default: () => [],
+        },
+        estudantes: {
+            type: Array,
+            default: () => [],
+        },
+    },
+
+    setup(props) {
         const form = useForm({
             tutor_id: "",
             animal_id: "",
-            veterinario_id: "",
+            estudante_id: "",
+            tipo_consulta: "",
             data_consulta: "",
             horario: "",
             forma_pagamento: "",
             valor: "",
             observacoes: "",
+            
         });
+
+        // Lista os animais que o tutor selecionado possui
+        const AnimaisFiltrados = computed(() => {
+            if(!form.tutor_id) return [];
+            return props.animals.filter(animal => animal.tutor_id === form.tutor_id);
+        })
 
         // Data atual para limite mínimo
         const today = computed(() => {
@@ -531,11 +575,12 @@ export default {
         });
 
         // Validação do formulário
-        const isFormValid = computed(() => {
+        const validacaoFormulario = computed(() => {
             return (
                 form.tutor_id &&
                 form.animal_id &&
-                form.veterinario_id &&
+                form.estudante_id &&
+                form.tipo_consulta &&
                 form.data_consulta &&
                 form.horario &&
                 form.forma_pagamento &&
@@ -544,7 +589,7 @@ export default {
         });
 
         const submit = () => {
-            if (!isFormValid.value) return;
+            if (!validacaoFormulario.value) return;
             
             form.post(route('consultas.store'), {
                 onSuccess: () => {
@@ -563,9 +608,11 @@ export default {
         return {
             form,
             today,
-            isFormValid,
+            validacaoFormulario,
             submit,
             resetForm,
+            AnimaisFiltrados,
+            props,
         };
     },
 };
