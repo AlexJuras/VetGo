@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\{CadastroController, LoginController};
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{ClinicController, AnimalController, ConsultaController, EstudanteController, TutorController, UserController};
 use Inertia\Inertia;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::inertia('/vetgo', 'VetGo')->name('vetgo');
 Route::inertia('/cadastrar', 'Auth/Cadastrar')->name('cadastrar');
@@ -31,9 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::get('/', function () {
-        return Inertia::render('Home');
-    })->name('home');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
+    Route::put('/consultas/{id}/cancelar', [ConsultaController::class, 'cancelar'])->name('consultas.cancelar');
 });
 
 // Com o Inertia eu posso fazer a rota acima:

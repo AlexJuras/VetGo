@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Animal;
 use App\Models\Consulta;
+use App\Models\Estudante;
+use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,8 +16,30 @@ class ConsultaController extends Controller
      */
     public function index()
     {
-        $consultas = Consulta::all();
-        return Inertia::render('Consulta/Index', compact('consultas'));
+        $consultas = Consulta::with(['animal', 'animal.tutor', 'estudante'])
+            ->orderBy('data_consulta', 'desc')
+            ->orderBy('horario', 'desc')
+            ->get();
+
+        $consultas = $consultas->map(function ($consulta) {
+            return [
+                'id' => $consulta->id,
+                'animal' => $consulta->animal ? $consulta->animal->nome : null,
+                'tutor' => $consulta->animal && $consulta->animal->tutor ? $consulta->animal->tutor->nome : null,
+                'estudante' => $consulta->estudante ? $consulta->estudante->nome : null,
+                'data_consulta' => $consulta->data_consulta,
+                'horario' => $consulta->horario,
+                'valor' => $consulta->valor,
+                'forma_pagamento' => $consulta->forma_pagamento,
+                'tipo_consulta' => $consulta->tipo_consulta,
+                'status' => strtolower($consulta->status),
+                'observacoes' => $consulta->observacoes,
+            ];
+        });
+
+        return Inertia::render('Consulta/Index', [
+            'consultas' => $consultas,
+        ]);
     }
 
     /**
@@ -22,7 +47,14 @@ class ConsultaController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Consulta/Create');
+        $tutors = Tutor::all();
+        $animals = Animal::all();
+        $estudantes = Estudante::all();
+        return Inertia::render('Consulta/Create', [
+            'tutores' => $tutors,
+            'animals' => $animals,
+            'estudantes' => $estudantes,
+        ]);
     }
 
     /**
@@ -30,13 +62,18 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'clinic_id' => 'required',
+        $validated = $request->validate([
+            'tutor_id' => 'nullable',
             'animal_id' => 'required',
-            'marcada_para' => 'required',
-            'motivo' => 'nullable'
+            'estudante_id' => 'required',
+            'data_consulta' => 'required',
+            'horario' => 'required',
+            'valor' => 'nullable',
+            'forma_pagamento' => 'nullable',
+            'tipo_consulta' => 'nullable',
+            'observacoes' => 'nullable'
         ]);
-        Consulta::create($request->all());
+        Consulta::create($validated);
         return redirect()->route('consultas.index');
     }
 
@@ -53,7 +90,15 @@ class ConsultaController extends Controller
      */
     public function edit(Consulta $consulta)
     {
-        return Inertia::render('Consulta/Edit', compact('consulta'));
+        $consulta->load(['animal', 'animal.tutor', 'estudante']);
+
+        return Inertia::render('Consulta/Edit', [
+            'consulta' => $consulta,
+            'tutores' => Tutor::all(),
+            'animals' => Animal::all(),
+            'estudantes' => Estudante::all(),
+        ]);
+        
     }
 
     /**
@@ -61,14 +106,20 @@ class ConsultaController extends Controller
      */
     public function update(Request $request, Consulta $consulta)
     {
-        $request->validate([
-            'clinic_id' => 'required',
+        $validated = $request->validate([
+            'clinic_id' => 'nullable',
+            'tutor_id' => 'nullable',
             'animal_id' => 'required',
-            'marcada_para' => 'required',
-            'motivo' => 'nullable'
+            'estudante_id' => 'nullable',
+            'data' => 'required',
+            'horario' => 'required',
+            'valor' => 'nullable',
+            'forma_pagamento' => 'nullable',
+            'tipo' => 'required',
+            'observacoes' => 'nullable'
         ]);
 
-        $consulta->update($request->all());
+        $consulta->update($validated);
 
         return redirect()->route('consultas.index');    }
 
@@ -78,5 +129,14 @@ class ConsultaController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function cancelar($id)
+    {
+        $consulta = Consulta::findOrFail($id);
+        $consulta->status = 'cancelada';
+        $consulta->save();
+
+        return redirect()->route('consultas.index')->with('success', 'Consulta cancelada com sucesso!');
     }
 }
