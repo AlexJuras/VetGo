@@ -122,7 +122,8 @@
                         </div>
                     </div>
                     <div class="text-xs text-gray-500">
-                        Próxima às {{ proximaConsultaHorario }}
+                        <!-- Próxima às {{ proximaConsultaHorario }} -->
+                         Consultas próximas
                     </div>
                 </div>
             </div>
